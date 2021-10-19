@@ -55,6 +55,15 @@ _Bool checktriinf(double **A, int n);
 double prod_esc(int n, double *x, double *y);
 
 /**
+ * Producte entre una matriu i un vector
+ * @param M - Matriu
+ * @param x - Vector
+ * @param n - Dimensió
+ * @return
+ */
+double *prodMatVect(double **M, double *x,int n);
+
+/**
 * Calcula la solució d'un matriu per mitjà del. mètode de gauss sense pivots
 * @param n - Dimensió del vector
 * @param A - Matriu
