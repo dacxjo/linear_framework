@@ -64,6 +64,15 @@ double prod_esc(int n, double *x, double *y);
 double *prodMatVect(double **M, double *x,int n);
 
 /**
+ * Donada una matriu, retorna la seva transposada
+ * @param M - Matriu
+ * @param m - Nombre de files
+ * @param n - Nombre de columnes
+ * @return
+ */
+double **transposar(double **M, int m,int n);
+
+/**
 * Calcula la solució d'un matriu per mitjà del. mètode de gauss sense pivots
 * @param n - Dimensió del vector
 * @param A - Matriu
@@ -72,5 +81,7 @@ double *prodMatVect(double **M, double *x,int n);
 * @return - 0 Si s'ha pogut resoldre el sistema , 1 en cas contrari
 */
 int gauss(int n, double **A, double *b, double tol);
+
+double checkLU(int n, double **a, double **acp);
 
 #endif //BLANDONTORREZDAVID_PRAC1_FUNS_LINALG_H
