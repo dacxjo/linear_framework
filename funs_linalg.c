@@ -4,6 +4,7 @@
 
 #include "funs_linalg.h"
 #include "stdlib.h"
+#include "stdio.h"
 
 int resoltrisup(int n, double **A, double *b, double *x, double tol) {
     x[n - 1] = b[n - 1] / A[n - 1][n - 1];
@@ -87,21 +88,34 @@ double **transposar(double **a, int m, int n) {
 }
 
 int gauss(int n, double **A, double *b, double tol) {
-    for (int k = 0; k < n - 1; k++) {
-        for (int i = k + 1; i < n; i++) {
-            double term = A[i][k] / A[k][k];
-            b[i] = b[i] - term * b[k];
-            for (int j = 0; j < n; j++) {
-                A[i][j] = A[i][j] - term * A[k][j];
+    int i, j, k,is_solved;
+    double *temp  = (double *) malloc(sizeof(double) * n);
+    for (i = 0; i < n; i++) {
+        if (A[i][i] == 0) {
+            fprintf(stderr, "Divisió per 0!\n");
+            return 1;
+        }
+        for (j = i + 1; j < n; j++) {
+            double term = A[j][i] / A[i][i];
+            b[j] = b[j] - term * b[i];
+            for (k = 0; k <= n; k++) {
+                A[j][k] = A[j][k] - term * A[i][k];
             }
         }
     }
-    //TODO: Call resoltrisup here!!!
-    return 0;
+   is_solved = resoltrisup(n, A, b,temp, tol);
+    if(is_solved == 0){
+        for (i = 0; i < n; ++i) {
+            b[i] = temp[i];
+        }
+    }
+    free(temp);
+    return is_solved;
 }
 
-double checkLU(int n, double **a, double **acp){
 
+double checkLU(int n, double **a, double **acp) {
+    return 0;
 }
 
 

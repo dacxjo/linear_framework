@@ -5,7 +5,7 @@
 
 
 int main() {
-    int is_solved, option = 0;
+    int is_solved,is_exact=0, option = 0;
     double **A, *b, *x,*r, tol = 0.0;
     int n ;
     while (option != 3) {
@@ -19,12 +19,12 @@ int main() {
             case 1: {
                 n = 4;
                 double matriuEx[4][4] = {
-                        {1, 2, 3,  4},
-                        {0, 3, 2,  3},
-                        {0, 0, -1, 2},
-                        {0, 0, 0,  1}
+                        {1.0234, 2.0981,  9.9871,  1.1},
+                        {0,      -6.9876, 2.2222,  0.3333},
+                        {0,      0,       -1.9870, 20.121},
+                        {0,      0,       0,       1.1234}
                 };
-                double vecEx[4] = {1, 1, 1, 1};
+                double vecEx[4] = {1, 0, 1, 0};
                 A = (double **) malloc(sizeof(double) * n);
                 x = (double *) malloc(sizeof(double) * n);
                 b = (double *) malloc(sizeof(double) * n);
@@ -69,6 +69,30 @@ int main() {
                     printf("-----------Solucions----------\n");
                     for (int i = 0; i < n; ++i) {
                         printf("X%d: %lf\n",i+1, x[i]);
+                    }
+                    printf("\n");
+                }
+                printf("----------Comprovació---------\n");
+                double *Ax = prodMatVect(A, x, n);
+                for (int i = 0; i < n; ++i) {
+                    if(Ax[i] != b[i]){
+                        is_exact = 1;
+                        printf("%.20lf(Ax) != %.20lf(b)\n", Ax[i], b[i]);
+                    }else{
+                        printf("%.20lf(Ax) = %.20lf(b)\n", Ax[i], b[i]);
+                    }
+                }
+                if(is_exact == 0){
+                    printf("La solució és exacta\n");
+                }else{
+                    printf("La solució és aproximada\n");
+                    for (int i = 0; i < n; ++i) {
+                        r[i] += (Ax[i] - b[i]);
+                    }
+                    printf("\n");
+                    printf("Vector Residu:\n");
+                    for (int i = 0; i < n; ++i) {
+                        printf("%.20lf\n", r[i]);
                     }
                     printf("\n");
                 }
