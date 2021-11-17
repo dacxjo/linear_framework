@@ -4,7 +4,7 @@
 
 
 int main() {
-    int is_solved,is_exact = 0, option = 0;
+    int is_solved,is_exact = 0, option = 0,i,j;
     double **A, *b, *x, *r, tol = 0.0;
     int n;
     while (option != 3) {
@@ -32,7 +32,7 @@ int main() {
                     printf("No hi ha suficient memòria\n");
                     exit(EXIT_FAILURE);
                 }
-                for (int i = 0; i < n; i++) {
+                for (i = 0; i < n; i++) {
                     A[i] = (double *) malloc(n * sizeof(double));
                     if (A[i] == NULL) {
                         printf("No hi ha suficient memòria\n");
@@ -41,12 +41,12 @@ int main() {
                 }
                 printf("---------------Matriu----------------\n");
                 printf("\n");
-                for (int i = 0; i < n; ++i) {
-                    for (int j = 0; j < n; ++j) {
-                        printf("%lf\t", matriuEx[i][j]);
+                for ( i = 0; i < n; ++i) {
+                    for (j = 0; j < n; ++j) {
+                        printf("%f\t", matriuEx[i][j]);
                         A[i][j] = matriuEx[i][j];
                     }
-                    printf("|\t %lf", vecEx[i]);
+                    printf("|\t %f", vecEx[i]);
                     b[i] = vecEx[i];
                     printf("\n");
                 }
@@ -56,32 +56,32 @@ int main() {
                     printf("El sistema s'ha resolt: Status %d\n", is_solved);
                     printf("\n");
                     printf("-----------Solucions----------\n");
-                    for (int i = 0; i < n; ++i) {
-                        printf("X%d: %lf\n", i + 1, x[i]);
+                    for (i = 0; i < n; ++i) {
+                        printf("X%d: %f\n", i + 1, x[i]);
                     }
                     printf("\n");
                 }
                 printf("----------Comprovació---------\n");
                 double *Ax = prodMatVect(A, x, n);
-                for (int i = 0; i < n; ++i) {
+                for (i = 0; i < n; ++i) {
                     if(Ax[i] != b[i]){
                         is_exact = 1;
-                        printf("%.20lf(Ax) != %.20lf(b)\n", Ax[i], b[i]);
+                        printf("%.20f(Ax) != %.20f(b)\n", Ax[i], b[i]);
                     }else{
-                        printf("%.20lf(Ax) = %.20lf(b)\n", Ax[i], b[i]);
+                        printf("%.20f(Ax) = %.20f(b)\n", Ax[i], b[i]);
                     }
                 }
                 if(is_exact == 0){
                     printf("La solució és exacta\n");
                 }else{
                     printf("La solució és aproximada\n");
-                    for (int i = 0; i < n; ++i) {
+                    for (i = 0; i < n; ++i) {
                         r[i] += (Ax[i] - b[i]);
                     }
                     printf("\n");
                     printf("Vector Residu:\n");
-                    for (int i = 0; i < n; ++i) {
-                        printf("%.20lf\n", r[i]);
+                    for (i = 0; i < n; ++i) {
+                        printf("%.20f\n", r[i]);
                     }
                     printf("\n");
                 }
@@ -103,7 +103,7 @@ int main() {
                     printf("No hi ha suficient memòria\n");
                     exit(EXIT_FAILURE);
                 }
-                for (int i = 0; i < n; i++) {
+                for (i = 0; i < n; i++) {
                     A[i] = (double *) malloc(n * sizeof(double));
                     if (A[i] == NULL) {
                         printf("No hi ha suficient memòria\n");
@@ -111,8 +111,8 @@ int main() {
                     }
                 }
                 printf("Ingressi els elements de la matriu:\n");
-                for (int i = 0; i < n; ++i) {
-                    for (int j = 0; j < n; ++j) {
+                for (i = 0; i < n; ++i) {
+                    for (j = 0; j < n; ++j) {
                         scanf("%lf", &A[i][j]);
                     }
                 }
@@ -124,17 +124,17 @@ int main() {
                     exit(2);
                 }
                 printf("Ingressi els elements del vector B:\n");
-                for (int i = 0; i < n; ++i) {
+                for (i = 0; i < n; ++i) {
                     scanf("%lf", &b[i]);
                 }
                 printf("Ingressi la tolerància acceptada:\n");
                 scanf("%lf", &tol);
                 printf("Matriu ingressada:\n");
-                for (int i = 0; i < n; ++i) {
-                    for (int j = 0; j < n; ++j) {
-                        printf("%lf\t", A[i][j]);
+                for (i = 0; i < n; ++i) {
+                    for (j = 0; j < n; ++j) {
+                        printf("%f\t", A[i][j]);
                     }
-                    printf("|\t %lf", b[i]);
+                    printf("|\t %f", b[i]);
                     printf("\n");
                 }
                 is_solved = resoltrisup(n, A, b, x, tol);
@@ -142,30 +142,30 @@ int main() {
                     printf("El sistema s'ha resolt: Status %d\n", is_solved);
                     printf("\n");
                     printf("-----------Solucions----------\n");
-                    for (int i = 0; i < n; ++i) {
-                        printf("X%d: %lf\n", i + 1, x[i]);
+                    for (i = 0; i < n; ++i) {
+                        printf("X%d: %f\n", i + 1, x[i]);
                     }
                     printf("----------Comprovació---------\n");
                     double *Ax = prodMatVect(A, x, n);
-                    for (int i = 0; i < n; ++i) {
+                    for (i = 0; i < n; ++i) {
                         if(Ax[i] != b[i]){
                             is_exact = 1;
-                            printf("%.20lf(Ax) != %.20lf(b)\n", Ax[i], b[i]);
+                            printf("%.20le(Ax) != %.20le (b)\n", Ax[i], b[i]);
                         }else{
-                            printf("%.20lf(Ax) = %.20lf(b)\n", Ax[i], b[i]);
+                            printf("%.20le(Ax) = %.20le (b)\n", Ax[i], b[i]);
                         }
                     }
                     if(is_exact == 0){
                         printf("La solució és exacta\n");
                     }else{
                         printf("La solució és aproximada\n");
-                        for (int i = 0; i < n; ++i) {
+                        for (i = 0; i < n; ++i) {
                             r[i] += (Ax[i] - b[i]);
                         }
                         printf("\n");
                         printf("Vector Residu:\n");
-                        for (int i = 0; i < n; ++i) {
-                            printf("%.20lf\n", r[i]);
+                        for (i = 0; i < n; ++i) {
+                            printf("%.20le\n", r[i]);
                         }
                         printf("\n");
                     }
@@ -183,4 +183,5 @@ int main() {
 
         }
     }
+    return 0;
 }

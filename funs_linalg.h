@@ -1,7 +1,3 @@
-//
-// Created by David Blandon on 13/10/21.
-//
-
 #ifndef BLANDONTORREZDAVID_PRAC1_FUNS_LINALG_H
 #define BLANDONTORREZDAVID_PRAC1_FUNS_LINALG_H
 
@@ -23,7 +19,7 @@ int resoltrisup(int n, double **A, double *b, double *x, double tol);
  * @param n - Dimension de la matriu
  * @return - 0 si la matriu no és triangular superior i 1 al contrari
  */
-_Bool checktrisup(double **A, int n);
+int checktrisup(double **A, int n);
 
 /**
  * Resol una matriu triangular inferior donada
@@ -43,7 +39,7 @@ int resoltriinf(int n, double **A, double *b, double *x, double tol);
  * @param n - Dimension de la matriu
  * @return - 0 si la matriu no és triangular inferior i 1 al contrari
  */
-_Bool checktriinf(double **A, int n);
+int checktriinf(double **A, int n);
 
 /**
 * Calc el producte escalar entre dos vectors donats
@@ -72,16 +68,6 @@ double *prodMatVect(double **M, double *x,int n);
  * @return - Producte de dues matrius
  */
 double **prodMatMat(double **A, double **B,int n,int m);
-
-double **matCofact(double **A,n);
-
-/**
- * @param A - Matriu A
- * @param n - dimensio
- * @return -  Retorna la inversa d'una matriu
- */
-double **invertMat(double **A,int n);
-
 
 /**
  * Donada una matriu, retorna la seva transposada

@@ -66,7 +66,7 @@ int main() {
             printf("X%d: %lf\n", i + 1, b[i]);
         }
         printf("----------Comprovació---------\n");
-        double *Ax = prodMatVect(aTemp, b, n);
+        double *Ax = prodMatVect(aTemp, bTemp, n);
         for (i = 0; i < n; ++i) {
             if(Ax[i] != bTemp[i]){
                 is_exact = 1;
