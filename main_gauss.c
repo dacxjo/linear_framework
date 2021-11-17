@@ -56,7 +56,7 @@ int main() {
         printf("-----------Matriu de gauss------------\n");
         for (i = 0; i < n; ++i) {
             for (j = 0; j < n; ++j) {
-                printf("%lf\t", aTemp[i][j]);
+                printf("%lf\t", A[i][j]);
             }
             printf("\n");
         }
@@ -66,7 +66,7 @@ int main() {
             printf("X%d: %lf\n", i + 1, b[i]);
         }
         printf("----------Comprovació---------\n");
-        double *Ax = prodMatVect(aTemp, b, n);
+        double *Ax = prodMatVect(aTemp, bTemp, n);
         for (i = 0; i < n; ++i) {
             if(Ax[i] != bTemp[i]){
                 is_exact = 1;

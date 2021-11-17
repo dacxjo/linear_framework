@@ -1,7 +1,3 @@
-//
-// Created by David Blandon on 13/10/21.
-//
-
 #ifndef BLANDONTORREZDAVID_PRAC1_FUNS_LINALG_H
 #define BLANDONTORREZDAVID_PRAC1_FUNS_LINALG_H
 
@@ -23,7 +19,7 @@ int resoltrisup(int n, double **A, double *b, double *x, double tol);
  * @param n - Dimension de la matriu
  * @return - 0 si la matriu no és triangular superior i 1 al contrari
  */
-_Bool checktrisup(double **A, int n);
+int checktrisup(double **A, int n);
 
 /**
  * Resol una matriu triangular inferior donada
@@ -43,7 +39,7 @@ int resoltriinf(int n, double **A, double *b, double *x, double tol);
  * @param n - Dimension de la matriu
  * @return - 0 si la matriu no és triangular inferior i 1 al contrari
  */
-_Bool checktriinf(double **A, int n);
+int checktriinf(double **A, int n);
 
 /**
 * Calc el producte escalar entre dos vectors donats
@@ -64,6 +60,16 @@ double prod_esc(int n, double *x, double *y);
 double *prodMatVect(double **M, double *x,int n);
 
 /**
+ * Producte entre dues matrius
+ * @param A - Matriu A
+ * @param B - Matriu B
+ * @param n - Files
+ * @param n - Columnes
+ * @return - Producte de dues matrius
+ */
+double **prodMatMat(double **A, double **B,int n,int m);
+
+/**
  * Donada una matriu, retorna la seva transposada
  * @param M - Matriu
  * @param m - Nombre de files
@@ -74,7 +80,7 @@ double **transposar(double **M, int m,int n);
 
 /**
 * Calcula la solució d'un matriu per mitjà del. mètode de gauss sense pivots
-* @param n - Dimensió del vector
+* @param n - Dimensió de la matriu
 * @param A - Matriu
 * @param b - Vector terme independent
 * @param tol - Tolerància
@@ -82,6 +88,22 @@ double **transposar(double **M, int m,int n);
 */
 int gauss(int n, double **A, double *b, double tol);
 
-double checkLU(int n, double **a, double **acp);
+/**
+* Calcula la solució d'un matriu per mitjà del. mètode de gauss amb pivots
+* @param n - Dimensió de la matriu
+* @param A - Matriu
+* @param v - Vector terme independent
+* @param tol - Tolerància
+* @return - 0 Si s'ha pogut resoldre el sistema , 1 en cas contrari
+*/
+int gausspiv(int n, double **A, double *v, double tol);
 
-#endif //BLANDONTORREZDAVID_PRAC1_FUNS_LINALG_H
+
+/**
+* @param n - Dimensió de la matriu
+* @param A - Matriu original
+* @param acp - Matriu alterada
+*/
+double **checkLU(int n, double **a, double **acp);
+
+#endif
