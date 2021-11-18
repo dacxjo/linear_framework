@@ -12,6 +12,9 @@ int resoltrisup(int n, double **A, double *b, double *x, double tol) {
         for (j = i + 1; j <= n - 1; ++j) {
             sum += (A[i][j] * x[j]);
         }
+        if(fabs(A[i][i]) < tol || fabs(A[i][i]) == 0){
+            return 1;
+        }
         x[i] += (b[i] - sum) / A[i][i];
     }
     return 0;
@@ -24,6 +27,9 @@ int resoltriinf(int n, double **A, double *b, double *x, double tol) {
         double sum = 0.0;
         for (j = 0; j <= (i - 1); ++j) {
             sum += (A[i][j] * x[j]);
+        }
+        if(fabs(A[i][i]) < tol || fabs(A[i][i]) == 0){
+            return 1;
         }
         x[i] += (b[i] - sum) / A[i][i];
     }
@@ -178,5 +184,5 @@ int gausspiv(int n, double **A, double *b, double tol) {
 
 
 double **checkLU(int n, double **a, double **acp) {
-   return 0;
+    return 0;
 }
