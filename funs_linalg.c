@@ -5,14 +5,14 @@
 
 
 int resoltrisup(int n, double **A, double *b, double *x, double tol) {
-    int i,j;
+    int i, j;
     x[n - 1] = b[n - 1] / A[n - 1][n - 1];
     for (i = n - 2; i >= 0; --i) {
         double sum = 0.0;
         for (j = i + 1; j <= n - 1; ++j) {
             sum += (A[i][j] * x[j]);
         }
-        if(fabs(A[i][i]) < tol || fabs(A[i][i]) == 0){
+        if (fabs(A[i][i]) < tol || fabs(A[i][i]) == 0) {
             return 1;
         }
         x[i] += (b[i] - sum) / A[i][i];
@@ -21,14 +21,14 @@ int resoltrisup(int n, double **A, double *b, double *x, double tol) {
 }
 
 int resoltriinf(int n, double **A, double *b, double *x, double tol) {
-    int i,j;
+    int i, j;
     x[0] = b[0] / A[0][0];
     for (i = 1; i < n; i++) {
         double sum = 0.0;
         for (j = 0; j <= (i - 1); ++j) {
             sum += (A[i][j] * x[j]);
         }
-        if(fabs(A[i][i]) < tol || fabs(A[i][i]) == 0){
+        if (fabs(A[i][i]) < tol || fabs(A[i][i]) == 0) {
             return 1;
         }
         x[i] += (b[i] - sum) / A[i][i];
@@ -37,7 +37,7 @@ int resoltriinf(int n, double **A, double *b, double *x, double tol) {
 }
 
 int checktrisup(double **A, int n) {
-    int i,j;
+    int i, j;
     for (i = 0; i < n; ++i) {
         for (j = 0; j < n; ++j) {
             if (j < i && A[i][j] != 0) {
@@ -49,7 +49,7 @@ int checktrisup(double **A, int n) {
 }
 
 int checktriinf(double **A, int n) {
-    int i,j;
+    int i, j;
     for (i = 0; i < n; i++) {
         for (j = i + 1; j < n; j++) {
             if (A[i][j] != 0) {
@@ -58,6 +58,33 @@ int checktriinf(double **A, int n) {
         }
     }
     return 1;
+}
+
+int gauss(int n, double **A, double *b, double tol) {
+    /** TODO: Check test second exercise again */
+    int i, j, k;
+    double x[n];
+    for (i = 0; i < n; ++i) {
+        for (j = i + 1; j < n; j++) {
+            if (fabs(A[i][i]) == 0 || fabs(A[i][i]) < tol) {
+                return 1;
+            }
+            double term = A[j][i] / A[i][i];
+            b[j] = b[j] - term * b[i];
+            for (k = 0; k < n; k++) {
+                A[j][k] = A[j][k] - term * A[i][k];
+            }
+        }
+    }
+    if (resoltrisup(n, A, b, x, tol) == 0) {
+        for (i = 0; i < n; i++) {
+            b[i]=x[i];
+        }
+        return 0;
+    } else {
+        return 1;
+    }
+
 }
 
 double prod_esc(int n, double *x, double *y) {
@@ -92,10 +119,10 @@ double **prodMatMat(double **A, double **B, int n, int m) {
 }
 
 double *prodMatVect(double **M, double *x, int n) {
-    int i,j;
+    int i, j;
     double *v = (double *) malloc(n * sizeof(double));
     for (i = 0; i < n; i++) {
-        v[i] = 0;
+        v[i] = 0.0;
         for (j = 0; j < n; j++) {
             v[i] += M[i][j] * x[j];
         }
@@ -105,7 +132,7 @@ double *prodMatVect(double **M, double *x, int n) {
 
 double **transposar(double **a, int m, int n) {
     double **temp = (double **) malloc(sizeof(double) * m);
-    int i,j;
+    int i, j;
     for (i = 0; i < n; i++) {
         temp[i] = (double *) malloc(n * sizeof(double));
         if (temp[i] == NULL) {
@@ -118,34 +145,6 @@ double **transposar(double **a, int m, int n) {
         }
     }
     return temp;
-}
-
-int gauss(int n, double **A, double *b, double tol) {
-    int i, j, k, is_solved;
-    double *temp = (double *) malloc(sizeof(double) * n);
-    for (i = 0; i < n; i++) {
-        if (A[i][i] == 0) {
-            fprintf(stderr, "Divisió per 0!\n");
-            return 1;
-        }
-        for (j = i + 1; j < n; j++) {
-            double term = A[j][i] / A[i][i];
-            if (b != NULL) {
-                b[j] = b[j] - term * b[i];
-            }
-            for (k = 0; k <= n; k++) {
-                A[j][k] = A[j][k] - term * A[i][k];
-            }
-        }
-    }
-    is_solved = resoltrisup(n, A, b, temp, tol);
-    if (is_solved == 0) {
-        for (i = 0; i < n; ++i) {
-            b[i] = temp[i];
-        }
-    }
-    free(temp);
-    return is_solved;
 }
 
 int gausspiv(int n, double **A, double *b, double tol) {
