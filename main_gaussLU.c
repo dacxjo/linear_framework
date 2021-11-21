@@ -14,7 +14,7 @@ int main() {
     for (i = 0; i < n; i++) {
         a[i] = (double *) malloc(n * sizeof(double));
         acp[i] = (double *) malloc(n * sizeof(double));
-        if (a[i] == NULL || acp == NULL) {
+        if (a[i] == NULL || acp[i] == NULL) {
             printf("No hi ha suficient memoria\n");
             exit(EXIT_FAILURE);
         }
