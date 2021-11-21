@@ -61,15 +61,14 @@ int checktriinf(double **A, int n) {
 }
 
 int gauss(int n, double **A, double *b, double tol) {
-    /** TODO: Check test second exercise again */
     int i, j, k;
-    double x[n];
+    double x[n], term;
     for (i = 0; i < n; ++i) {
         for (j = i + 1; j < n; j++) {
             if (fabs(A[i][i]) == 0 || fabs(A[i][i]) < tol) {
                 return 1;
             }
-            double term = A[j][i] / A[i][i];
+            term = A[j][i] / A[i][i];
             b[j] = b[j] - term * b[i];
             for (k = 0; k < n; k++) {
                 A[j][k] = A[j][k] - term * A[i][k];
@@ -78,13 +77,38 @@ int gauss(int n, double **A, double *b, double tol) {
     }
     if (resoltrisup(n, A, b, x, tol) == 0) {
         for (i = 0; i < n; i++) {
-            b[i]=x[i];
+            b[i] = x[i];
         }
         return 0;
     } else {
         return 1;
     }
+}
 
+void gaussLU(int n, double **A,double **L) {
+    int i, j, k;
+    double term;
+    for (k = 0; k <= n - 1; k++) {
+        for (i = k + 1; i < n; i++) {
+            if (fabs(A[k][k]) == 0) {
+                exit(EXIT_FAILURE);
+            }
+            term = A[i][k] / A[k][k];
+            for (j = k; j <= n; j++) {
+                A[i][j] = A[i][j] - (term * A[k][j]);
+                if(i > j){
+                    L[i][j] = term;
+                }
+            }
+        }
+    }
+}
+
+double checkLU(int n, double **a, double **acp) {
+    /** A = LU
+     *
+     * */
+    return 0.0;
 }
 
 double prod_esc(int n, double *x, double *y) {
@@ -179,9 +203,4 @@ int gausspiv(int n, double **A, double *b, double tol) {
     }
     free(tempB);
     return is_solved;
-}
-
-
-double **checkLU(int n, double **a, double **acp) {
-    return 0;
 }

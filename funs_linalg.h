@@ -89,6 +89,15 @@ double **transposar(double **M, int m,int n);
 int gauss(int n, double **A, double *b, double tol);
 
 /**
+* Versio modificada de Gauss per obtenir la factorizacio LU
+* @param n - Dimensió de la matriu
+* @param A - Matriu original
+* @param L - Lower Matriu
+
+*/
+void gaussLU(int n, double **A, double **L);
+
+/**
 * Calcula la solució d'un matriu per mitjà del. mètode de gauss amb pivots
 * @param n - Dimensió de la matriu
 * @param A - Matriu
@@ -104,6 +113,6 @@ int gausspiv(int n, double **A, double *v, double tol);
 * @param A - Matriu original
 * @param acp - Matriu alterada
 */
-double **checkLU(int n, double **a, double **acp);
+double checkLU(int n, double **a, double **acp);
 
 #endif
