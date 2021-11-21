@@ -2,6 +2,77 @@
 #define BLANDONTORREZDAVID_PRAC1_FUNS_LINALG_H
 
 /**
+* Calc el producte escalar entre dos vectors donats
+* @param n - Dimensió del vector
+* @param x - Vector X
+* @param y - Vector Y
+* @return - Producte escalar
+*/
+double prod_esc(int n, double *x, double *y);
+
+/**
+ * Producte entre una matriu i un vector
+ * @param M - Matriu
+ * @param x - Vector
+ * @param n - Dimensió
+ * @return
+ */
+double *prodMatVect(double **M, double *x,int n);
+
+/**
+ * Producte entre dues matrius
+ * @param A - Matriu A
+ * @param B - Matriu B
+ * @param n - Files
+ * @param n - Columnes
+ * @return - Producte de dues matrius
+ */
+void prodMatMat(double **A, double **B,double **destination,int n,int m);
+
+/**
+ * Suma entre dues matrius, el primer argument tindra la solucio
+ * @param A - Matriu A
+ * @param B - Matriu B
+ * @param n - Files
+ * @param n - Columnes
+
+ */
+void sumMatMat(double **A, double **B,double **destination,int n);
+
+/**
+ * Resta entre dues matrius, el primer argument tindra la solucio
+ * @param A - Matriu A
+ * @param B - Matriu B
+ * @param n - Files
+ * @param n - Columnes
+
+ */
+void restMatMat(double **A, double **B,double **destination,int n);
+
+/**
+ * Donada una matriu, retorna la seva transposada
+ * @param M - Matriu
+ * @param m - Nombre de files
+ * @param n - Nombre de columnes
+ * @return
+ */
+double **transposar(double **M, int m,int n);
+
+/**
+ * Genera una matriz Identidad
+ * @param n - Orden de la matriz
+ * @param M - Matriu
+ */
+void genMatId(int n,double **M);
+
+/**
+ * Genera una matriz nula
+ * @param n - Orden de la matriz
+ * @param M - Matriu
+ */
+void genMatNul(int n,double **M);
+
+/**
  * Resol una matriu triangular superior donada
  * utilitzant substitució enrere (Backwards Substitution)
  * @param n - Dimensió de la matriu
@@ -42,43 +113,6 @@ int resoltriinf(int n, double **A, double *b, double *x, double tol);
 int checktriinf(double **A, int n);
 
 /**
-* Calc el producte escalar entre dos vectors donats
-* @param n - Dimensió del vector
-* @param x - Vector X
-* @param y - Vector Y
-* @return - Producte escalar
-*/
-double prod_esc(int n, double *x, double *y);
-
-/**
- * Producte entre una matriu i un vector
- * @param M - Matriu
- * @param x - Vector
- * @param n - Dimensió
- * @return
- */
-double *prodMatVect(double **M, double *x,int n);
-
-/**
- * Producte entre dues matrius
- * @param A - Matriu A
- * @param B - Matriu B
- * @param n - Files
- * @param n - Columnes
- * @return - Producte de dues matrius
- */
-double **prodMatMat(double **A, double **B,int n,int m);
-
-/**
- * Donada una matriu, retorna la seva transposada
- * @param M - Matriu
- * @param m - Nombre de files
- * @param n - Nombre de columnes
- * @return
- */
-double **transposar(double **M, int m,int n);
-
-/**
 * Calcula la solució d'un matriu per mitjà del. mètode de gauss sense pivots
 * @param n - Dimensió de la matriu
 * @param A - Matriu
@@ -95,7 +129,14 @@ int gauss(int n, double **A, double *b, double tol);
 * @param L - Lower Matriu
 
 */
-void gaussLU(int n, double **A, double **L);
+void gaussLU(int n, double **A);
+
+/**
+* @param n - Dimensió de la matriu
+* @param A - Matriu original
+* @param acp - Matriu alterada
+*/
+double checkLU(int n, double **a, double **acp);
 
 /**
 * Calcula la solució d'un matriu per mitjà del. mètode de gauss amb pivots
@@ -106,13 +147,4 @@ void gaussLU(int n, double **A, double **L);
 * @return - 0 Si s'ha pogut resoldre el sistema , 1 en cas contrari
 */
 int gausspiv(int n, double **A, double *v, double tol);
-
-
-/**
-* @param n - Dimensió de la matriu
-* @param A - Matriu original
-* @param acp - Matriu alterada
-*/
-double checkLU(int n, double **a, double **acp);
-
 #endif

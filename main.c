@@ -45,7 +45,7 @@ int main() {
     printf("\nL BEFORE FUNCTION:\n");
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
-            printf("%lf\t", l[i][j]);
+            printf("%le\t", l[i][j]);
         }
         printf("\n");
     }
@@ -67,14 +67,14 @@ int main() {
     printf("\nL AFTER FUNCTION:\n");
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
-            printf("%lf\t", l[i][j]);
+            printf("%le\t", l[i][j]);
         }
         printf("\n");
     }
     printf("\nU:\n");
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
-            printf("%lf\t", a[i][j]);
+            printf("%le\t", a[i][j]);
         }
         printf("\n");
     }
