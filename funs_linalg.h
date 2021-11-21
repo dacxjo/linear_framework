@@ -73,6 +73,13 @@ void genMatId(int n,double **M);
 void genMatNul(int n,double **M);
 
 /**
+ * Genera un vector nulo
+ * @param n - Dimension
+ * @param V - Vector
+ */
+void genVectNul(int n,double *V);
+
+/**
  * Resol una matriu triangular superior donada
  * utilitzant substitució enrere (Backwards Substitution)
  * @param n - Dimensió de la matriu
@@ -130,6 +137,16 @@ int gauss(int n, double **A, double *b, double tol);
 
 */
 void gaussLU(int n, double **A);
+
+
+/**
+* Factoriza una matriz alterada para obtener las matrices L y U
+* @param n - Orden
+* @param A - Matriu alterada
+* @param L - Matriu Lower
+* @param U - Upper Matriu
+*/
+void luDecompose(int n, double **acp, double **L, double **U);
 
 /**
 * @param n - Dimensió de la matriu

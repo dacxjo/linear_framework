@@ -96,9 +96,9 @@ int main() {
                     for (i = 0; i < n; ++i) {
                         if (Ax[i] != b[i]) {
                             is_exact = 1;
-                            printf("%.20lf(Ax) != %.20lf(b)\n", Ax[i], b[i]);
+                            printf("%f(Ax) != %f(b)\n", Ax[i], b[i]);
                         } else {
-                            printf("%.20lf(Ax) = %.20lf(b)\n", Ax[i], b[i]);
+                            printf("%f(Ax) = %f(b)\n", Ax[i], b[i]);
                         }
                     }
                     if (is_exact == 0) {
@@ -111,7 +111,7 @@ int main() {
                         printf("\n");
                         printf("Vector Residu:\n");
                         for (i = 0; i < n; ++i) {
-                            printf("%.20lf\n", r[i]);
+                            printf("%f\n", r[i]);
                         }
                         printf("\n");
                     }
@@ -187,9 +187,9 @@ int main() {
                     for (i = 0; i < n; ++i) {
                         if (Ax[i] != b[i]) {
                             is_exact = 1;
-                            printf("%.20lf(Ax) != %.20lf(b)\n", Ax[i], b[i]);
+                            printf("%f(Ax) != %f(b)\n", Ax[i], b[i]);
                         } else {
-                            printf("%.20lf(Ax) = %.20lf(b)\n", Ax[i], b[i]);
+                            printf("%f(Ax) = %f(b)\n", Ax[i], b[i]);
                         }
                     }
                     if (is_exact == 0) {
@@ -202,7 +202,7 @@ int main() {
                         printf("\n");
                         printf("Vector Residu:\n");
                         for (i = 0; i < n; ++i) {
-                            printf("%.20lf\n", r[i]);
+                            printf("%f\n", r[i]);
                         }
                         printf("\n");
                     }

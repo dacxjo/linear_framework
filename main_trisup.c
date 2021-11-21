@@ -85,9 +85,9 @@ int main() {
                     for (i = 0; i < n; ++i) {
                         if (Ax[i] != b[i]) {
                             is_exact = 1;
-                            printf("%.24le(Ax) != %.24le(b)\n", Ax[i], b[i]);
+                            printf("%f(Ax) != %f(b)\n", Ax[i], b[i]);
                         } else {
-                            printf("%.24le(Ax) = %.24le(b)\n", Ax[i], b[i]);
+                            printf("%f(Ax) = %f(b)\n", Ax[i], b[i]);
                         }
                     }
                     if (is_exact == 0) {
@@ -100,7 +100,7 @@ int main() {
                         printf("\n");
                         printf("Vector Residu:\n");
                         for (i = 0; i < n; ++i) {
-                            printf("%.24le\n", r[i]);
+                            printf("%f\n", r[i]);
                         }
                         printf("\n");
                     }
@@ -158,9 +158,9 @@ int main() {
                 printf("Matriu ingressada:\n");
                 for (i = 0; i < n; ++i) {
                     for (j = 0; j < n; ++j) {
-                        printf("%le\t", A[i][j]);
+                        printf("%f\t", A[i][j]);
                     }
-                    printf("|\t %le", b[i]);
+                    printf("|\t %f", b[i]);
                     printf("\n");
                 }
                 is_solved = resoltrisup(n, A, b, x, tol);
@@ -169,16 +169,16 @@ int main() {
                     printf("\n");
                     printf("-----------Solucions----------\n");
                     for (i = 0; i < n; ++i) {
-                        printf("X%d: %le\n", i + 1, x[i]);
+                        printf("X%d: %f\n", i + 1, x[i]);
                     }
                     printf("----------Comprovació---------\n");
                     Ax = prodMatVect(A, x, n);
                     for (i = 0; i < n; ++i) {
                         if (Ax[i] != b[i]) {
                             is_exact = 1;
-                            printf("%.24le(Ax) != %.24le (b)\n", Ax[i], b[i]);
+                            printf("%f(Ax) != %f (b)\n", Ax[i], b[i]);
                         } else {
-                            printf("%.24le(Ax) = %.24le (b)\n", Ax[i], b[i]);
+                            printf("%f(Ax) = %f (b)\n", Ax[i], b[i]);
                         }
                     }
                     if (is_exact == 0) {
@@ -191,7 +191,7 @@ int main() {
                         printf("\n");
                         printf("Vector Residu:\n");
                         for (i = 0; i < n; ++i) {
-                            printf("%.24le\n", r[i]);
+                            printf("%f\n", r[i]);
                         }
                         printf("\n");
                     }

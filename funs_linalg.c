@@ -98,6 +98,13 @@ void genMatNul(int n, double **M) {
     }
 }
 
+void genVectNul(int n, double *V) {
+    int i, j;
+    for (i = 0; i < n; i++) {
+        V[i] = 0.0;
+    }
+}
+
 
 int resoltrisup(int n, double **A, double *b, double *x, double tol) {
     int i, j;
@@ -120,10 +127,10 @@ int resoltriinf(int n, double **A, double *b, double *x, double tol) {
     x[0] = b[0] / A[0][0];
     for (i = 1; i < n; i++) {
         double sum = 0.0;
-        for (j = 0; j <= (i - 1); ++j) {
+        for (j = 0; j <= (i - 1); j++) {
             sum += (A[i][j] * x[j]);
         }
-        if (fabs(A[i][i]) < tol || fabs(A[i][i]) == 0) {
+        if (fabs(A[i][i]) < tol || fabs(A[i][i]) == 0.0) {
             return 1;
         }
         x[i] += (b[i] - sum) / A[i][i];
@@ -214,6 +221,19 @@ void gaussLU(int n, double **A) {
     free(temp);
 }
 
+void luDecompose(int n, double **acp, double **L, double **U){
+    int i,j;
+    for (i = 0; i < n; i++) {
+        for (j = 0; j < n; j++) {
+            if (i > j) {
+                L[i][j] = acp[i][j];
+            } else {
+                U[i][j] = acp[i][j];
+            }
+        }
+    }
+}
+
 double checkLU(int n, double **a, double **acp) {
     /** A = LU
      *  B = A - LU
@@ -238,15 +258,7 @@ double checkLU(int n, double **a, double **acp) {
         }
     }
     genMatId(n, L);
-    for (i = 0; i < n; i++) {
-        for (j = 0; j < n; j++) {
-            if (i > j) {
-                L[i][j] = acp[i][j];
-            } else {
-                U[i][j] = acp[i][j];
-            }
-        }
-    }
+    luDecompose(n,acp,L,U);
     printf("Matriu L: \n");
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
