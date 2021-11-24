@@ -99,7 +99,7 @@ void genMatNul(int n, double **M) {
 }
 
 void genVectNul(int n, double *V) {
-    int i, j;
+    int i;
     for (i = 0; i < n; i++) {
         V[i] = 0.0;
     }
@@ -164,16 +164,16 @@ int checktriinf(double **A, int n) {
 
 int gauss(int n, double **A, double *b, double tol) {
     int i, j, k;
-    double x[n], term;
-    for (i = 0; i < n; ++i) {
-        for (j = i + 1; j < n; j++) {
-            if (fabs(A[i][i]) == 0 || fabs(A[i][i]) < tol) {
+    double x[n], ratio;
+    for (k = 0; k < n - 1; k++) {
+        for (i = k + 1; i < n; i++) {
+            if (fabs(A[k][k]) == 0.0) {
                 return 1;
             }
-            term = A[j][i] / A[i][i];
-            b[j] = b[j] - term * b[i];
-            for (k = 0; k < n; k++) {
-                A[j][k] = A[j][k] - term * A[i][k];
+            ratio = A[i][k] / A[k][k];
+            b[i] = b[i] - ratio * b[k];
+            for (j = k; j < n; j++) {
+                A[i][j] = A[i][j] - (ratio * A[k][j]);
             }
         }
     }
@@ -202,17 +202,19 @@ void gaussLU(int n, double **A) {
             exit(EXIT_FAILURE);
         }
     }
-    genMatNul(n, temp);
-    for (k = 0; k <= n - 1; k++) {
+
+    for (k = 0; k < n - 1; k++) {
         for (i = k + 1; i < n; i++) {
-            if (fabs(A[k][k]) == 0) {
+            if (fabs(A[k][k]) == 0.0) {
                 exit(EXIT_FAILURE);
             }
             ratio = A[i][k] / A[k][k];
-            for (j = k; j <= n; j++) {
+            for (j = k; j < n; j++) {
                 A[i][j] = A[i][j] - (ratio * A[k][j]);
                 if (i > j) {
                     temp[i][j] = ratio;
+                }else{
+                    temp[i][j] = 0.0;
                 }
             }
         }

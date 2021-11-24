@@ -21,7 +21,6 @@ int main() {
     }
 
 
-    /*
     a[0][0] = 1;
     a[0][1] = 2;
     a[0][2] = 3;
@@ -55,9 +54,9 @@ int main() {
     acp[3][1] = -3;
     acp[3][2] = -2;
     acp[3][3] = 1;
-*/
 
 
+/*
     a[0][0] = 1;
     a[0][1] = 0.5;
     a[0][2] = 0.333333;
@@ -91,7 +90,7 @@ int main() {
     acp[3][1] = 0.2;
     acp[3][2] = 0.166667;
     acp[3][3] = 0.142857;
-
+*/
     printf("\n");
     gaussLU(n,acp);
     printf("LU Decomposition: \n");
@@ -116,10 +115,8 @@ int main() {
     printf("Maxim de B:  %e\n",result);
     if(result == 0.0){
         printf("La factorizacio es correcta!!!");
-        printf("\n");
     }else{
         printf("La factorizacio es incorrecta...");
-        printf("\n");
     }
     free(a);
     free(acp);

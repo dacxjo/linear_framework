@@ -3,7 +3,7 @@ project(BlandonTorrezDavid_prac1 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(BlandonTorrezDavid_prac1 main.c funs_linalg.c funs_linalg.h)
+add_executable(BlandonTorrezDavid_prac1 main.c funs_linalg.c funs_linalg.h main_debug.c)
 add_executable(trisup main_trisup.c funs_linalg.c funs_linalg.h)
 add_executable(triinf main_triinf.c funs_linalg.c funs_linalg.h)
 add_executable(gauss main_gauss.c funs_linalg.c funs_linalg.h)
