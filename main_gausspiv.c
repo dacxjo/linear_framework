@@ -53,7 +53,7 @@ int main() {
         printf("\n");
     }
     printf("\n");
-    is_solved = gauss(n, A, b, tol);
+    is_solved = gausspiv(n, A, b, tol);
     if (is_solved == 0) {
         printf("El sistema s'ha resolt: Status %d\n", is_solved);
         printf("-----------Matriu de gauss------------\n");
@@ -66,7 +66,7 @@ int main() {
         printf("\n");
         printf("-----------Solucions----------\n");
         for (i = 0; i < n; ++i) {
-            printf("X%d: %le\n", i + 1, b[i]);
+            printf("X%d: %.24le\n", i + 1, b[i]);
         }
         printf("----------Comprovació---------\n");
         prodMatVect(aTemp, b,Ax, n);

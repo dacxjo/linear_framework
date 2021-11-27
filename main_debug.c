@@ -1,125 +1,108 @@
-#include<stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "funs_linalg.h"
 
 int main() {
-    double **a,**acp,result;
-    int i, j, n = 4;
-    a = (double **) malloc(sizeof(double) * n);
-    acp = (double **) malloc(sizeof(double) * n);
-    if(a == NULL || acp == NULL){
-        printf("No hi ha suficient memoria\n");
+    int i, j, n, is_solved,is_exact = 0;
+    double **A,*Ax, **aTemp, *b, *bTemp,*r, tol = 0.0;
+    printf("Ingressi la dimensió de la matriu:\n");
+    scanf("%d", &n);
+    A = (double **) malloc(sizeof(double) * n);
+    aTemp = (double **) malloc(sizeof(double) * n);
+    b = (double *) malloc(sizeof(double) * n);
+    bTemp = (double *) malloc(sizeof(double) * n);
+    r = (double *) malloc(sizeof(double) * n);
+    Ax = (double *) malloc(sizeof(double) * n);
+    if (A == NULL || aTemp == NULL || b == NULL || r == NULL || bTemp == NULL) {
+        printf("No hi ha suficient memòria\n");
         exit(EXIT_FAILURE);
     }
     for (i = 0; i < n; i++) {
-        a[i] = (double *) malloc(n * sizeof(double));
-        acp[i] = (double *) malloc(n * sizeof(double));
-        if (a[i] == NULL || acp[i] == NULL) {
-            printf("No hi ha suficient memoria\n");
+        A[i] = (double *) malloc(n * sizeof(double));
+        aTemp[i] = (double *) malloc(n * sizeof(double));
+        if (A[i] == NULL) {
+            printf("No hi ha suficient memòria\n");
+            exit(EXIT_FAILURE);
+        }
+        if (aTemp[i] == NULL) {
+            printf("No hi ha suficient memòria\n");
             exit(EXIT_FAILURE);
         }
     }
-
-
-    a[0][0] = 1;
-    a[0][1] = 2;
-    a[0][2] = 3;
-    a[0][3] = 4;
-    a[1][0] = -2;
-    a[1][1] = 1;
-    a[1][2] = 2;
-    a[1][3] = 3;
-    a[2][0] = -3;
-    a[2][1] = -2;
-    a[2][2] = 1;
-    a[2][3] = 2;
-    a[3][0] = -4;
-    a[3][1] = -3;
-    a[3][2] = -2;
-    a[3][3] = 1;
-
-    acp[0][0] = 1;
-    acp[0][1] = 2;
-    acp[0][2] = 3;
-    acp[0][3] = 4;
-    acp[1][0] = -2;
-    acp[1][1] = 1;
-    acp[1][2] = 2;
-    acp[1][3] = 3;
-    acp[2][0] = -3;
-    acp[2][1] = -2;
-    acp[2][2] = 1;
-    acp[2][3] = 2;
-    acp[3][0] = -4;
-    acp[3][1] = -3;
-    acp[3][2] = -2;
-    acp[3][3] = 1;
-
-
-/*
-    a[0][0] = 1;
-    a[0][1] = 0.5;
-    a[0][2] = 0.333333;
-    a[0][3] = 0.25;
-    a[1][0] = 0.5;
-    a[1][1] = 0.333333;
-    a[1][2] = 0.25;
-    a[1][3] = 0.2;
-    a[2][0] = 0.333333;
-    a[2][1] = 0.25;
-    a[2][2] = 0.2;
-    a[2][3] = 0.166667;
-    a[3][0] = 0.25;
-    a[3][1] = 0.2;
-    a[3][2] = 0.166667;
-    a[3][3] = 0.142857;
-
-    acp[0][0] = 1;
-    acp[0][1] = 0.5;
-    acp[0][2] = 0.333333;
-    acp[0][3] = 0.25;
-    acp[1][0] = 0.5;
-    acp[1][1] = 0.333333;
-    acp[1][2] = 0.25;
-    acp[1][3] = 0.2;
-    acp[2][0] = 0.333333;
-    acp[2][1] = 0.25;
-    acp[2][2] = 0.2;
-    acp[2][3] = 0.166667;
-    acp[3][0] = 0.25;
-    acp[3][1] = 0.2;
-    acp[3][2] = 0.166667;
-    acp[3][3] = 0.142857;
-*/
-    printf("\n");
-    gaussLU(n,acp);
-    printf("LU Decomposition: \n");
-    printf("\n");
-    printf("Matriu ACP: \n");
-    for (i = 0; i < n; i++) {
-        for (j = 0; j < n; j++) {
-            printf("%e\t",acp[i][j]);
+    printf("Ingressi els elements de la matriu:\n");
+    for (i = 0; i < n; ++i) {
+        for (j = 0; j < n; ++j) {
+            scanf("%le", &A[i][j]);
+            aTemp[i][j] = A[i][j];
         }
+    }
+    printf("Ingressi els elements del vector B:\n");
+    for (i = 0; i < n; ++i) {
+        scanf("%le", &b[i]);
+        bTemp[i] = b[i];
+    }
+    printf("Ingressi la tolerància acceptada:\n");
+    scanf("%le", &tol);
+    printf("---------------Matriu----------------\n");
+    printf("\n");
+    for (i = 0; i < n; ++i) {
+        for (j = 0; j < n; ++j) {
+            printf("%le\t", A[i][j]);
+        }
+        printf("|\t %le", b[i]);
         printf("\n");
     }
     printf("\n");
-    printf("Matriu A: \n");
-    for (i = 0; i < n; i++) {
-        for (j = 0; j < n; j++) {
-            printf("%e\t",a[i][j]);
+    is_solved = gausspiv(n, A, b, tol);
+    if (is_solved == 0) {
+        printf("El sistema s'ha resolt: Status %d\n", is_solved);
+        printf("-----------Matriu de gauss------------\n");
+        for (i = 0; i < n; ++i) {
+            for (j = 0; j < n; ++j) {
+                printf("%le\t", A[i][j]);
+            }
+            printf("\n");
         }
         printf("\n");
+        printf("-----------Solucions----------\n");
+        for (i = 0; i < n; ++i) {
+            printf("X%d: %le\n", i + 1, b[i]);
+        }
+        printf("----------Comprovació---------\n");
+        prodMatVect(aTemp, b,Ax, n);
+        for (i = 0; i < n; ++i) {
+            if(Ax[i] != bTemp[i]){
+                is_exact = 1;
+                printf("%.24le(Ax) != %.24le(b)\n", Ax[i], bTemp[i]);
+            }else{
+                printf("%.24le(Ax) = %.24le(b)\n", Ax[i], bTemp[i]);
+            }
+        }
+        if(is_exact == 0){
+            printf("La solució és exacta\n");
+        }else{
+            printf("La solució és aproximada\n");
+            for (i = 0; i < n; ++i) {
+                r[i] += (Ax[i] - bTemp[i]);
+            }
+            printf("\n");
+            printf("Vector Residu:\n");
+            for (i = 0; i < n; ++i) {
+                printf("%.24le\n", r[i]);
+            }
+            printf("\n");
+        }
+        printf("\n");
+    } else {
+        printf("\033[0;31m");
+        printf("El sistema no es pot resoldre\n");
+        printf("\033[0;37m");
     }
-    printf("\n");
-    result = checkLU(n,a,acp);
-    printf("Maxim de B:  %e\n",result);
-    if(result == 0.0){
-        printf("La factorizacio es correcta!!!");
-    }else{
-        printf("La factorizacio es incorrecta...");
-    }
-    free(a);
-    free(acp);
-    return (0);
+    free(A);
+    free(Ax);
+    free(aTemp);
+    free(b);
+    free(bTemp);
+    free(r);
+    return 0;
 }
-

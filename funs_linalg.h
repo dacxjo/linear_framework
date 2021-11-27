@@ -17,7 +17,7 @@ double prod_esc(int n, double *x, double *y);
  * @param n - Dimensió
  * @return
  */
-double *prodMatVect(double **M, double *x,int n);
+void prodMatVect(double **M, double *x,double *destination,int n);
 
 /**
  * Producte entre dues matrius
@@ -73,11 +73,25 @@ void genMatId(int n,double **M);
 void genMatNul(int n,double **M);
 
 /**
+ * Genera una matriz de Hessenberg
+ * @param n - Orden de la matriz
+ * @param M - Matriu
+ */
+void genMatHessenberg(int n,double **M);
+
+/**
  * Genera un vector nulo
  * @param n - Dimension
  * @param V - Vector
  */
 void genVectNul(int n,double *V);
+
+/**
+ * Genera un vector identitat
+ * @param n - Dimension
+ * @param V - Vector
+ */
+void genVectId(int n,double *V);
 
 /**
  * Resol una matriu triangular superior donada
@@ -130,6 +144,16 @@ int checktriinf(double **A, int n);
 int gauss(int n, double **A, double *b, double tol);
 
 /**
+* Calcula la solució d'un matriu per mitjà del. mètode de gauss amb pivots
+* @param n - Dimensió de la matriu
+* @param A - Matriu
+* @param v - Vector terme independent
+* @param tol - Tolerància
+* @return - 0 Si s'ha pogut resoldre el sistema , 1 en cas contrari
+*/
+int gausspiv(int n, double **A, double *v, double tol);
+
+/**
 * Versio modificada de Gauss per obtenir la factorizacio LU
 * @param n - Dimensió de la matriu
 * @param A - Matriu original
@@ -154,14 +178,4 @@ void luDecompose(int n, double **acp, double **L, double **U);
 * @param acp - Matriu alterada
 */
 double checkLU(int n, double **a, double **acp);
-
-/**
-* Calcula la solució d'un matriu per mitjà del. mètode de gauss amb pivots
-* @param n - Dimensió de la matriu
-* @param A - Matriu
-* @param v - Vector terme independent
-* @param tol - Tolerància
-* @return - 0 Si s'ha pogut resoldre el sistema , 1 en cas contrari
-*/
-int gausspiv(int n, double **A, double *v, double tol);
 #endif

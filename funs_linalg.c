@@ -13,16 +13,14 @@ double prod_esc(int n, double *x, double *y) {
     return result;
 }
 
-double *prodMatVect(double **M, double *x, int n) {
+void prodMatVect(double **M, double *x, double *destination, int n) {
     int i, j;
-    double *v = (double *) malloc(n * sizeof(double));
     for (i = 0; i < n; i++) {
-        v[i] = 0.0;
+        destination[i] = 0.0;
         for (j = 0; j < n; j++) {
-            v[i] += M[i][j] * x[j];
+            destination[i] += M[i][j] * x[j];
         }
     }
-    return v;
 }
 
 
@@ -98,12 +96,36 @@ void genMatNul(int n, double **M) {
     }
 }
 
+void genMatHessenberg(int n, double **M) {
+
+    genMatNul(n, M);
+    for (int i = 1; i <= n ; i++) {
+        for (int j = 1; j <= n ; j++) {
+            if (j <= (i - 2)) {
+                continue;
+            } else if (j == (i - 1)) {
+                M[i-1][j-1] = n + 1 - i;
+            } else if (j >= i ) {
+                M[i-1][j-1] = n + 1 - j;
+            }
+        }
+    }
+}
+
 void genVectNul(int n, double *V) {
     int i;
     for (i = 0; i < n; i++) {
         V[i] = 0.0;
     }
 }
+
+void genVectId(int n, double *V) {
+    int i;
+    for (i = 0; i < n; i++) {
+        V[i] = 1.0;
+    }
+}
+
 
 
 int resoltrisup(int n, double **A, double *b, double *x, double tol) {
@@ -164,8 +186,53 @@ int checktriinf(double **A, int n) {
 
 int gauss(int n, double **A, double *b, double tol) {
     int i, j, k;
-    double x[n], ratio;
+    double *x, ratio;
+    x = (double *) malloc(sizeof(double) * n);
+    genVectNul(n, x);
     for (k = 0; k < n - 1; k++) {
+        for (i = k + 1; i < n; i++) {
+            if (fabs(A[k][k]) == 0.0) {
+                return 1;
+            }
+            ratio = A[i][k] / A[k][k];
+            b[i] = b[i] - ratio * b[k];
+            for (j = k; j < n; j++) {
+                A[i][j] = A[i][j] - (ratio * A[k][j]);
+            }
+        }
+    }
+    if (resoltrisup(n, A, b, x, tol) == 0) {
+        for (i = 0; i < n; i++) {
+            b[i] = x[i];
+        }
+        free(x);
+        return 0;
+    } else {
+        free(x);
+        return 1;
+    }
+
+}
+
+
+int gausspiv(int n, double **A, double *b, double tol) {
+    int i, j, k;
+    double *x, ratio, temp, tempB;
+    x = (double *) malloc(sizeof(double) * n);
+    genVectNul(n, x);
+    for (k = 0; k < n - 1; k++) {
+        for (i = k + 1; i < n; i++) {
+            if (fabs(A[k][k]) < fabs(A[i][k])) {
+                tempB = b[k];
+                b[k] = b[i];
+                b[i] = tempB;
+                for (j = 0; j < n; j++) {
+                    temp = A[k][j];
+                    A[k][j] = A[i][j];
+                    A[i][j] = temp;
+                }
+            }
+        }
         for (i = k + 1; i < n; i++) {
             if (fabs(A[k][k]) == 0.0) {
                 return 1;
@@ -186,6 +253,7 @@ int gauss(int n, double **A, double *b, double tol) {
         return 1;
     }
 }
+
 
 void gaussLU(int n, double **A) {
     int i, j, k;
@@ -213,7 +281,7 @@ void gaussLU(int n, double **A) {
                 A[i][j] = A[i][j] - (ratio * A[k][j]);
                 if (i > j) {
                     temp[i][j] = ratio;
-                }else{
+                } else {
                     temp[i][j] = 0.0;
                 }
             }
@@ -223,8 +291,8 @@ void gaussLU(int n, double **A) {
     free(temp);
 }
 
-void luDecompose(int n, double **acp, double **L, double **U){
-    int i,j;
+void luDecompose(int n, double **acp, double **L, double **U) {
+    int i, j;
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
             if (i > j) {
@@ -260,7 +328,7 @@ double checkLU(int n, double **a, double **acp) {
         }
     }
     genMatId(n, L);
-    luDecompose(n,acp,L,U);
+    luDecompose(n, acp, L, U);
     printf("Matriu L: \n");
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
@@ -310,38 +378,4 @@ double checkLU(int n, double **a, double **acp) {
     free(U);
     free(B);
     return maxB;
-}
-
-int gausspiv(int n, double **A, double *b, double tol) {
-    /** TODO: Re do this */
-    int i, j, k, is_solved;
-    double *tempB = (double *) malloc(sizeof(double) * n);
-    for (k = 0; k < n - 1; k++) {
-        for (i = k + 1; i < n; i++) {
-            if (fabs(A[k][k]) < fabs(A[i][k])) {
-                for (j = 0; j < n; j++) {
-                    double temp;
-                    temp = A[k][j];
-                    A[k][j] = A[i][j];
-                    A[i][j] = temp;
-                }
-            }
-        }
-        for (i = k + 1; i < n; i++) {
-            double term = A[i][k] / A[k][k];
-            for (j = 0; j < n; j++) {
-                A[i][j] = A[i][j] - term * A[k][j];
-            }
-        }
-    }
-
-
-    is_solved = resoltrisup(n, A, b, tempB, tol);
-    if (is_solved == 0) {
-        for (i = 0; i < n; ++i) {
-            b[i] = tempB[i];
-        }
-    }
-    free(tempB);
-    return is_solved;
 }
