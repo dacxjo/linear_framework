@@ -56,6 +56,12 @@ void restMatMat(double **A, double **B, double **destination, int n) {
         }
     }
 }
+void restVectVect(double *V, double *W,double *destination,int n){
+    int i;
+    for (i = 0; i < n; i++) {
+            destination[i] = V[i] - W[i];
+    }
+}
 
 double **transposar(double **a, int m, int n) {
     double **temp = (double **) malloc(sizeof(double) * m);
@@ -99,14 +105,14 @@ void genMatNul(int n, double **M) {
 void genMatHessenberg(int n, double **M) {
 
     genMatNul(n, M);
-    for (int i = 1; i <= n ; i++) {
-        for (int j = 1; j <= n ; j++) {
+    for (int i = 1; i <= n; i++) {
+        for (int j = 1; j <= n; j++) {
             if (j <= (i - 2)) {
                 continue;
             } else if (j == (i - 1)) {
-                M[i-1][j-1] = n + 1 - i;
-            } else if (j >= i ) {
-                M[i-1][j-1] = n + 1 - j;
+                M[i - 1][j - 1] = n + 1 - i;
+            } else if (j >= i) {
+                M[i - 1][j - 1] = n + 1 - j;
             }
         }
     }
@@ -126,6 +132,14 @@ void genVectId(int n, double *V) {
     }
 }
 
+double calcNormEucl(int n, double *V) {
+    double sum = 0.0;
+    int i;
+    for (i = 0; i < n; i++) {
+        sum += pow(V[i],2);
+    }
+    return sqrt(sum);
+}
 
 
 int resoltrisup(int n, double **A, double *b, double *x, double tol) {

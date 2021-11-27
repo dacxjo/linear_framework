@@ -49,6 +49,8 @@ void sumMatMat(double **A, double **B,double **destination,int n);
  */
 void restMatMat(double **A, double **B,double **destination,int n);
 
+void restVectVect(double *V, double *W,double *destination,int n);
+
 /**
  * Donada una matriu, retorna la seva transposada
  * @param M - Matriu
@@ -92,6 +94,13 @@ void genVectNul(int n,double *V);
  * @param V - Vector
  */
 void genVectId(int n,double *V);
+
+/**
+ * Calcula la norma euclidea de un vector
+ * @param n - Dimension
+ * @param V - Vector
+ */
+double calcNormEucl(int n,double *V);
 
 /**
  * Resol una matriu triangular superior donada
