@@ -15,8 +15,8 @@ double prod_esc(int n, double *x, double *y) {
 
 void prodMatVect(double **M, double *x, double *destination, int n) {
     int i, j;
+    genVectNul(n,destination);
     for (i = 0; i < n; i++) {
-        destination[i] = 0.0;
         for (j = 0; j < n; j++) {
             destination[i] += M[i][j] * x[j];
         }
@@ -103,10 +103,10 @@ void genMatNul(int n, double **M) {
 }
 
 void genMatHessenberg(int n, double **M) {
-
+    int i,j;
     genMatNul(n, M);
-    for (int i = 1; i <= n; i++) {
-        for (int j = 1; j <= n; j++) {
+    for ( i = 1; i <= n; i++) {
+        for (j = 1; j <= n; j++) {
             if (j <= (i - 2)) {
                 continue;
             } else if (j == (i - 1)) {
@@ -133,17 +133,15 @@ void genVectId(int n, double *V) {
 }
 
 double calcNormEucl(int n, double *V) {
-    double sum = 0.0;
-    int i;
-    for (i = 0; i < n; i++) {
-        sum += pow(V[i],2);
-    }
-    return sqrt(sum);
+    return sqrt(prod_esc(n,V,V));
 }
 
 
 int resoltrisup(int n, double **A, double *b, double *x, double tol) {
     int i, j;
+    if(A[n - 1][n - 1] == 0.0){
+        return 1;
+    }
     x[n - 1] = b[n - 1] / A[n - 1][n - 1];
     for (i = n - 2; i >= 0; --i) {
         double sum = 0.0;
@@ -160,6 +158,9 @@ int resoltrisup(int n, double **A, double *b, double *x, double tol) {
 
 int resoltriinf(int n, double **A, double *b, double *x, double tol) {
     int i, j;
+    if(A[0][0] == 0.0){
+        return 1;
+    }
     x[0] = b[0] / A[0][0];
     for (i = 1; i < n; i++) {
         double sum = 0.0;
