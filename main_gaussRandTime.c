@@ -4,24 +4,20 @@
 #include "funs_linalg.h"
 
 int main() {
-    int i, j, k, n, is_resolved,option;
-    double **A, *b, tol = 0.0001, temps;
+    int i, j, k, n, option;
+    double **A, *b, tol = 0.0001, totalTime = 0.0;
     FILE *file;
-    clock_t start, end;
-    printf("Metod per resoldre els sistemes:\n");
+    clock_t inici, final;
+    printf("Metode per a resoldre els sistemes:\n");
     printf("[1]-Gauss sense pivotatge:\n");
     printf("[2]-Gauss amb pivotatge:\n");
     scanf("%d", &option);
-
-    if(option == 1) {
-        file = fopen("../gaussTemps.out","w");
-    }else{
-        file = fopen("../gaussPivTemps.out","w");
+    if (option == 1) {
+        file = fopen("gaussTemps.out", "w");
+    } else {
+        file = fopen("gaussPivTemps.out", "w");
     }
-
-
     for (n = 2; n < 200; n++) {
-        start = clock();
         A = (double **) malloc(sizeof(double) * n);
         b = (double *) malloc(sizeof(double) * n);
         for (i = 0; i < n; i++) {
@@ -32,6 +28,7 @@ int main() {
             }
         }
         srand(time(NULL));
+        inici = clock();
         for (k = 0; k < 1000; k++) {
             for (i = 0; i < n; i++) {
                 for (j = 0; j < n; j++) {
@@ -39,24 +36,25 @@ int main() {
                     b[i] = rand() / (double) RAND_MAX;
                 }
             }
-            if(option == 1){
-                is_resolved = gauss(n,A,b,tol);
-            }else{
-                is_resolved = gausspiv(n,A,b,tol);
+
+            if (option == 1) {
+                gauss(n, A, b, tol);
+            } else {
+                gausspiv(n, A, b, tol);
             }
+
         }
+        final = clock();
         free(A);
         free(b);
-        end = clock();
-        temps = (double) (end - start) / CLOCKS_PER_SEC;
-        printf("1000 sistemas %dx%d resueltos en %.24lf segundos\n",n,n, temps);
-        if(option == 1){
-            file = freopen("../gaussTemps.out","a",file);
-        }else{
-            file = freopen("../gaussPivTemps.out","a",file);
+        totalTime += (double) (final - inici) / CLOCKS_PER_SEC;
+        printf("1000 sistemes %dx%d resolts - Temps total: %24.16e segons\n", n, n, totalTime);
+        if (option == 1) {
+            file = freopen("gaussTemps.out", "a", file);
+        } else {
+            file = freopen("gaussPivTemps.out", "a", file);
         }
-
-        fprintf(file,"%d\t %.24lf\n",n,temps);
+        fprintf(file, "%d\t %24.16e\n", n, totalTime);
     }
     fclose(file);
     return 0;

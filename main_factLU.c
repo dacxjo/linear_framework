@@ -12,7 +12,7 @@ int main() {
     vector = (double *) malloc(sizeof(double) * n);
     y = (double *) malloc(sizeof(double) * n);
     x = (double *) malloc(sizeof(double) * n);
-    if (a == NULL || acp == NULL || L == NULL || U == NULL || vector == NULL || y == NULL || x == NULL) {
+    if (a == NULL || acp == NULL || L == NULL || U == NULL || vector == NULL || y == NULL) {
         printf("No hi ha suficient memoria\n");
         exit(EXIT_FAILURE);
     }
@@ -28,74 +28,55 @@ int main() {
     }
 
     a[0][0] = 1;
-    a[0][1] = 2;
-    a[0][2] = 3;
-    a[0][3] = 4;
-    a[1][0] = -2;
-    a[1][1] = 1;
-    a[1][2] = 2;
-    a[1][3] = 3;
-    a[2][0] = -3;
-    a[2][1] = -2;
-    a[2][2] = 1;
-    a[2][3] = 2;
-    a[3][0] = -4;
-    a[3][1] = -3;
-    a[3][2] = -2;
-    a[3][3] = 1;
+    a[0][1] = 0.5;
+    a[0][2] = 0.333333;
+    a[0][3] = 0.25;
+    a[1][0] = 0.5;
+    a[1][1] = 0.333333;
+    a[1][2] = 0.25;
+    a[1][3] = 0.2;
+    a[2][0] = 0.333333;
+    a[2][1] = 0.25;
+    a[2][2] = 0.2;
+    a[2][3] = 0.166667;
+    a[3][0] = 0.25;
+    a[3][1] = 0.2;
+    a[3][2] = 0.166667;
+    a[3][3] = 0.142857;
 
     acp[0][0] = 1;
-    acp[0][1] = 2;
-    acp[0][2] = 3;
-    acp[0][3] = 4;
-    acp[1][0] = -2;
-    acp[1][1] = 1;
-    acp[1][2] = 2;
-    acp[1][3] = 3;
-    acp[2][0] = -3;
-    acp[2][1] = -2;
-    acp[2][2] = 1;
-    acp[2][3] = 2;
-    acp[3][0] = -4;
-    acp[3][1] = -3;
-    acp[3][2] = -2;
-    acp[3][3] = 1;
-
-  /*  a[0][0] = 4;
-    a[0][1] = -2;
-    a[0][2] = 1;
-    a[1][0] = 20;
-    a[1][1] = -7;
-    a[1][2] = 12;
-    a[2][0] = -8;
-    a[2][1] = 13;
-    a[2][2] = 17;
-
-    acp[0][0] = 4;
-    acp[0][1] = -2;
-    acp[0][2] = 1;
-    acp[1][0] = 20;
-    acp[1][1] = -7;
-    acp[1][2] = 12;
-    acp[2][0] = -8;
-    acp[2][1] = 13;
-    acp[2][2] = 17;*/
+    acp[0][1] = 0.5;
+    acp[0][2] = 0.333333;
+    acp[0][3] = 0.25;
+    acp[1][0] = 0.5;
+    acp[1][1] = 0.333333;
+    acp[1][2] = 0.25;
+    acp[1][3] = 0.2;
+    acp[2][0] = 0.333333;
+    acp[2][1] = 0.25;
+    acp[2][2] = 0.2;
+    acp[2][3] = 0.166667;
+    acp[3][0] = 0.25;
+    acp[3][1] = 0.2;
+    acp[3][2] = 0.166667;
+    acp[3][3] = 0.142857;
 
     gaussLU(n, acp);
     genMatId(n, L);
+    genMatNul(n,U);
     luDecompose(n, acp, L, U);
-    printf("Matriu L: \n");
+    printf("---------Matriu L---------\n");
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
-            printf("%e\t", L[i][j]);
+            printf("%24.16e\t", L[i][j]);
         }
         printf("\n");
     }
     printf("\n");
-    printf("Matriu U: \n");
+    printf("---------Matriu U---------\n");
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
-            printf("%e\t", U[i][j]);
+            printf("%24.16e\t", U[i][j]);
         }
         printf("\n");
     }
@@ -105,36 +86,37 @@ int main() {
         genVectNul(n,y);
         genVectNul(n,x);
         vector[k] = 1.0;
-        // Resolver trisup con L y B
-        printf("Resolviendo:\n");
+        printf("Resolent per a Y....\n");
+        printf("\n");
         for (i = 0; i < n; i++) {
             for (j = 0; j < n; j++) {
-                printf("%e\t", L[i][j]);
+                printf("%24.16e\t", L[i][j]);
             }
-            printf("= y%d = %e", i + 1, vector[i]);
+            printf("= y%d = %24.16e", i + 1, vector[i]);
             printf("\n");
         }
         resoltriinf(n, L, vector, y, tol);
         printf("\n");
-        printf("Obtenido el vector:\n");
+        printf("Obtingut el vector:\n");
+        printf("\n");
         for (i = 0; i < n; i++) {
-            printf("y%d = %lf\n", (i + 1), y[i]);
-
+            printf("y%d = %24.16e\n", (i + 1), y[i]);
         }
         printf("\n");
-        printf("Resolviendo:\n");
+        printf("Resolent per a X....\n");
+        printf("\n");
         for (i = 0; i < n; i++) {
             for (j = 0; j < n; j++) {
-                printf("%e\t",U[i][j]);
+                printf("%24.16e\t",U[i][j]);
             }
-            printf("= x%d = %e", i + 1, y[i]);
+            printf("= x%d = %24.16e", i + 1, y[i]);
             printf("\n");
         }
         resoltrisup(n,U,y,x,tol);
         printf("\n");
-        printf("Obtenida la solucion:\n");
+        printf("Obtinguda la solucio:\n");
         for (i = 0; i < n; i++) {
-            printf("x%d = %lf\n", i + 1, x[i]);
+            printf("x%d = %24.16e\n", i + 1, x[i]);
         }
         printf("\n");
     }

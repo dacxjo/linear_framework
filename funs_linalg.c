@@ -102,7 +102,7 @@ void genMatNul(int n, double **M) {
     }
 }
 
-void genMatHessenberg(int n, double **M) {
+void genMatFrankHessenberg(int n, double **M) {
     int i,j;
     genMatNul(n, M);
     for ( i = 1; i <= n; i++) {
@@ -206,7 +206,7 @@ int gauss(int n, double **A, double *b, double tol) {
     genVectNul(n, x);
     for (k = 0; k < n - 1; k++) {
         for (i = k + 1; i < n; i++) {
-            if (fabs(A[k][k]) == 0.0) {
+            if (fabs(A[k][k]) == 0.0 || fabs(A[k][k]) < tol) {
                 return 1;
             }
             ratio = A[i][k] / A[k][k];
@@ -216,17 +216,14 @@ int gauss(int n, double **A, double *b, double tol) {
             }
         }
     }
-    if (resoltrisup(n, A, b, x, tol) == 0) {
-        for (i = 0; i < n; i++) {
-            b[i] = x[i];
-        }
-        free(x);
-        return 0;
-    } else {
-        free(x);
+    if (resoltrisup(n, A, b, x, tol) == 1) {
         return 1;
     }
-
+    for (i = 0; i < n; i++) {
+        b[i] = x[i];
+    }
+    free(x);
+    return 0;
 }
 
 
@@ -259,14 +256,14 @@ int gausspiv(int n, double **A, double *b, double tol) {
             }
         }
     }
-    if (resoltrisup(n, A, b, x, tol) == 0) {
-        for (i = 0; i < n; i++) {
-            b[i] = x[i];
-        }
-        return 0;
-    } else {
+    if (resoltrisup(n, A, b, x, tol) == 1) {
         return 1;
     }
+    for (i = 0; i < n; i++) {
+        b[i] = x[i];
+    }
+    free(x);
+    return 0;
 }
 
 
@@ -285,7 +282,7 @@ void gaussLU(int n, double **A) {
             exit(EXIT_FAILURE);
         }
     }
-
+    genMatNul(n,temp);
     for (k = 0; k < n - 1; k++) {
         for (i = k + 1; i < n; i++) {
             if (fabs(A[k][k]) == 0.0) {
@@ -320,10 +317,6 @@ void luDecompose(int n, double **acp, double **L, double **U) {
 }
 
 double checkLU(int n, double **a, double **acp) {
-    /** A = LU
-     *  B = A - LU
-     *  B = {0}
-     * */
     int i, j;
     double **L, **U, **B, maxB;
     L = (double **) malloc(sizeof(double) * n);
@@ -343,6 +336,8 @@ double checkLU(int n, double **a, double **acp) {
         }
     }
     genMatId(n, L);
+    genMatNul(n,U);
+    genMatNul(n,B);
     luDecompose(n, acp, L, U);
     printf("Matriu L: \n");
     for (i = 0; i < n; i++) {
@@ -381,11 +376,11 @@ double checkLU(int n, double **a, double **acp) {
         printf("\n");
     }
     printf("\n");
-    maxB = B[0][0];
+    maxB = fabs(B[0][0]);
     for (i = 0; i < n; i++) {
         for (j = 0; j < n; j++) {
-            if (B[i][j] > maxB) {
-                maxB = B[i][j];
+            if (fabs(B[i][j]) > maxB) {
+                maxB = fabs(B[i][j]);
             }
         }
     }

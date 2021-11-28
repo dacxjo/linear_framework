@@ -16,7 +16,7 @@ int main() {
         switch (option) {
             case 1: {
                 n = 4;
-                printf("Ingressi la tolerància acceptada:\n");
+                printf("Ingressi la tolerancia acceptada:\n");
                 scanf("%le", &tol);
                 A = (double **) malloc(sizeof(double) * n);
                 Ax = (double *) malloc(sizeof(double) * n);
@@ -24,13 +24,13 @@ int main() {
                 b = (double *) malloc(sizeof(double) * n);
                 r = (double *) malloc(sizeof(double) * n);
                 if (A == NULL || x == NULL || b == NULL || r == NULL || Ax == NULL) {
-                    printf("No hi ha suficient memòria\n");
+                    printf("No hi ha suficient memoria\n");
                     exit(EXIT_FAILURE);
                 }
                 for (i = 0; i < n; i++) {
                     A[i] = (double *) malloc(n * sizeof(double));
                     if (A[i] == NULL) {
-                        printf("No hi ha suficient memòria\n");
+                        printf("No hi ha suficient memoria\n");
                         exit(EXIT_FAILURE);
                     }
                 }
@@ -61,9 +61,9 @@ int main() {
                 printf("\n");
                 for (i = 0; i < n; i++) {
                     for (j = 0; j < n; j++) {
-                        printf("%.24le\t", A[i][j]);
+                        printf("%24.16e\t", A[i][j]);
                     }
-                    printf("|\t %.24le", b[i]);
+                    printf("|\t %24.16e", b[i]);
                     printf("\n");
                 }
                 printf("\n");
@@ -76,33 +76,35 @@ int main() {
                     printf("\n");
                     printf("-----------Solucions----------\n");
                     for (i = 0; i < n; i++) {
-                        printf("X%d: %.24le\n", i + 1, x[i]);
+                        printf("X%d: %24.16e\n", i + 1, x[i]);
                     }
                     printf("\n");
-                    printf("----------Comprovació---------\n");
+                    printf("----------Comprovacio---------\n");
                     prodMatVect(A, x, Ax, n);
+                    genVectNul(n,r);
+                    is_exact = 0;
                     for (i = 0; i < n; i++) {
                         if (Ax[i] != b[i]) {
                             is_exact = 1;
-                            printf("%.24le(Ax) != %.24le(b)\n", Ax[i], b[i]);
+                            printf("%24.16e(Ax) != %24.16e(b)\n", Ax[i], b[i]);
                         } else {
-                            printf("%.24le(Ax) = %.24le(b)\n", Ax[i], b[i]);
+                            printf("%24.16e(Ax) = %24.16e(b)\n", Ax[i], b[i]);
                         }
                     }
                     if (is_exact == 0) {
-                        printf("La solució és exacta\n");
+                        printf("La solucio es exacta\n");
                     } else {
-                        printf("La solució és aproximada\n");
+                        printf("La solucio es aproximada\n");
                         for (i = 0; i < n; i++) {
                             r[i] += (Ax[i] - b[i]);
                         }
                         printf("\n");
                         printf("Vector Residu:\n");
                         for (i = 0; i < n; i++) {
-                            printf("%.24le\n", r[i]);
+                            printf("%24.16e\n", r[i]);
                         }
                         printf("\n");
-                        printf("Residu: %.24le\n", calcNormEucl(n, r));
+                        printf("Residu: %24.16e\n", calcNormEucl(n, r));
                         printf("\n");
                     }
                 } else {
@@ -118,7 +120,7 @@ int main() {
                 break;
             }
             case 2:
-                printf("Ingressi la dimensió de la matriu:\n");
+                printf("Ingressi la dimensio de la matriu:\n");
                 scanf("%d", &n);
                 A = (double **) malloc(sizeof(double) * n);
                 b = (double *) malloc(sizeof(double) * n);
@@ -126,13 +128,13 @@ int main() {
                 r = (double *) malloc(sizeof(double) * n);
                 Ax = (double *) malloc(sizeof(double) * n);
                 if (A == NULL || b == NULL || x == NULL || Ax == NULL) {
-                    printf("No hi ha suficient memòria\n");
+                    printf("No hi ha suficient memoria\n");
                     exit(EXIT_FAILURE);
                 }
                 for (i = 0; i < n; i++) {
                     A[i] = (double *) malloc(n * sizeof(double));
                     if (A[i] == NULL) {
-                        printf("No hi ha suficient memòria\n");
+                        printf("No hi ha suficient memoria\n");
                         exit(EXIT_FAILURE);
                     }
                 }
@@ -143,25 +145,25 @@ int main() {
                     }
                 }
                 if (checktrisup(A, n)) {
-                    printf("La matriu és triangular superior\n");
+                    printf("La matriu es triangular superior\n");
                 } else {
                     printf("\033[0;31m");
-                    printf("La matriu no és triangular superior\n");
+                    printf("La matriu no es triangular superior\n");
                     exit(2);
                 }
                 printf("Ingressi els elements del vector B:\n");
                 for (i = 0; i < n; i++) {
                     scanf("%le", &b[i]);
                 }
-                printf("Ingressi la tolerància acceptada:\n");
+                printf("Ingressi la tolerancia acceptada:\n");
                 scanf("%le", &tol);
                 printf("\n");
                 printf("Matriu ingressada:\n");
                 for (i = 0; i < n; i++) {
                     for (j = 0; j < n; j++) {
-                        printf("%.24le\t", A[i][j]);
+                        printf("%24.16e\t", A[i][j]);
                     }
-                    printf("|\t %.24le", b[i]);
+                    printf("|\t %24.16e", b[i]);
                     printf("\n");
                 }
                 genVectNul(n, x);
@@ -174,38 +176,39 @@ int main() {
                     printf("\n");
                     printf("-----------Solucions----------\n");
                     for (i = 0; i < n; i++) {
-                        printf("X%d: %.24le\n", i + 1, x[i]);
+                        printf("X%d: %24.16e\n", i + 1, x[i]);
                     }
                     printf("\n");
-                    printf("----------Comprovació---------\n");
+                    printf("----------Comprovacio---------\n");
                     prodMatVect(A, x, Ax, n);
+                    genVectNul(n,r);
                     is_exact = 0;
                     for (i = 0; i < n; i++) {
                         if (Ax[i] != b[i]) {
                             is_exact = 1;
-                            printf("%.24le(Ax) != %.24le (b)\n", Ax[i], b[i]);
+                            printf("%24.16e(Ax) != %24.16e (b)\n", Ax[i], b[i]);
                         } else {
-                            printf("%.24le(Ax) = %.24le (b)\n", Ax[i], b[i]);
+                            printf("%24.16e(Ax) = %24.16e (b)\n", Ax[i], b[i]);
                         }
                     }
                     printf("\n");
                     if (is_exact == 0) {
-                        printf("La solució és exacta\n");
+                        printf("La solucio es exacta\n");
                         printf("\n");
                     } else {
-                        printf("La solució és aproximada\n");
+                        printf("La solucio es aproximada\n");
                         for (i = 0; i < n; i++) {
                             r[i] += (Ax[i] - b[i]);
                         }
                         printf("\n");
                         printf("Vector Residu:\n");
                         for (i = 0; i < n; i++) {
-                            printf("%.24le\n", r[i]);
+                            printf("%24.16e\n", r[i]);
                         }
                         printf("\n");
                     }
                     printf("\n");
-                    printf("Residu: %.24le\n", calcNormEucl(n, r));
+                    printf("Residu: %24.16e\n", calcNormEucl(n, r));
                     printf("\n");
                 } else {
                     printf("\033[0;31m");
@@ -220,7 +223,6 @@ int main() {
                 break;
             default:
                 exit(EXIT_SUCCESS);
-
         }
     }
     return 0;
