@@ -4,13 +4,13 @@
 
 int main() {
     int i, j, n, is_solved,is_exact,option = 0;
-    double **A,*Ax, **aTemp, *b, *bTemp,*r, tol = 0.0, errrel=0.0;
+    double **A,*Ax, **aTemp, *b, *bTemp,*r, tol = 0.0;
     while (option != 3) {
-        printf("---------Metode de Gauss---------\n");
+        printf("---------Metode de Gauss amb pivotatge---------\n");
         printf("[1]. Usar matriu de l'exercici(A2)\n");
         printf("[2]. Introduir dades manualment\n");
         printf("[3]. Sortir\n");
-        printf("-------------------------------------\n");
+        printf("-----------------------------------------------\n");
         scanf("%d", &option);
         switch (option) {
             case 1: {
@@ -74,7 +74,7 @@ int main() {
                     printf("\n");
                 }
                 printf("\n");
-                is_solved = gauss(n, A, b, tol);
+                is_solved = gausspiv(n, A, b, tol);
                 if (is_solved == 0) {
                     printf("El sistema s'ha resolt: Status %d\n", is_solved);
                     printf("\n");
@@ -83,7 +83,6 @@ int main() {
                         for (j = 0; j < n; j++) {
                             printf("%24.16e\t", A[i][j]);
                         }
-                        printf("|\t %24.16e", bTemp[i]);
                         printf("\n");
                     }
                     printf("\n");
@@ -94,7 +93,6 @@ int main() {
                     printf("\n");
                     printf("----------Comprovacio---------\n");
                     prodMatVect(aTemp, b,Ax, n);
-                    genVectNul(n,r);
                     is_exact = 0;
                     for (i = 0; i < n; i++) {
                         if(Ax[i] != bTemp[i]){
@@ -105,8 +103,11 @@ int main() {
                         }
                     }
                     if(is_exact == 0){
+                        printf("\n");
                         printf("La solucio es exacta\n");
+                        printf("\n");
                     }else{
+                        printf("\n");
                         printf("La solucio es aproximada\n");
                         for (i = 0; i < n; i++) {
                             r[i] += (Ax[i] - bTemp[i]);
@@ -183,7 +184,7 @@ int main() {
                     printf("\n");
                 }
                 printf("\n");
-                is_solved = gauss(n, A, b, tol);
+                is_solved = gausspiv(n, A, b, tol);
                 if (is_solved == 0) {
                     printf("El sistema s'ha resolt: Status %d\n", is_solved);
                     printf("\n");
@@ -202,7 +203,6 @@ int main() {
                     printf("\n");
                     printf("----------Comprovacio---------\n");
                     prodMatVect(aTemp, b,Ax, n);
-                    genVectNul(n,r);
                     is_exact = 0;
                     for (i = 0; i < n; i++) {
                         if(Ax[i] != bTemp[i]){
@@ -213,8 +213,10 @@ int main() {
                         }
                     }
                     if(is_exact == 0){
+                        printf("\n");
                         printf("La solucio es exacta\n");
                     }else{
+                        printf("\n");
                         printf("La solucio es aproximada\n");
                         for (i = 0; i < n; i++) {
                             r[i] += (Ax[i] - bTemp[i]);
@@ -225,8 +227,7 @@ int main() {
                             printf("%24.16e\n", r[i]);
                         }
                         printf("\n");
-                        errrel = calcNormEucl(n, r);
-                        printf("Residu: %24.16e\n", errrel);
+                        printf("Residu: %24.16e\n", calcNormEucl(n, r));
                         printf("\n");
                     }
                     printf("\n");
